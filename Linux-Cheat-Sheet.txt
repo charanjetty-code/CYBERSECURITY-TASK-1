@@ -1,0 +1,136 @@
+LINUX CHEAT SHEET
+Cybersecurity & Ethical Hacking Internship — Task 1
+
+1. FILE SYSTEM NAVIGATION
+
+pwd
+Displays the current working directory.
+
+Command:
+pwd
+
+ls
+Lists files and directories.
+
+Command:
+ls
+
+cd
+Changes the current directory.
+
+Command:
+cd /tmp
+
+Return to home:
+cd ~
+
+2. FILE PERMISSIONS
+
+ls -l
+Displays file permissions and ownership information.
+
+Command:
+ls -l
+
+chmod
+Changes file permissions.
+
+Example:
+chmod 600 testfile.txt
+
+chown
+Changes file ownership.
+
+Example:
+chown user:group testfile.txt
+
+3. PACKAGE MANAGEMENT
+
+apt
+Used to manage software packages on Debian-based Linux systems.
+
+Command:
+apt
+
+dpkg
+A lower-level Debian package-management utility.
+
+Command:
+dpkg
+
+4. NETWORKING COMMANDS
+
+ifconfig
+Displays network-interface information.
+
+Command:
+ifconfig
+
+ping
+Tests network connectivity.
+
+Example:
+ping -c 4 192.168.56.102
+
+netstat
+Displays network connections and related information.
+
+Command:
+netstat
+
+traceroute
+Shows the network path toward a destination.
+
+Example:
+traceroute <destination>
+
+5. USEFUL COMMANDS
+
+ip addr
+Displays IP addresses and network interfaces.
+
+Command:
+ip addr
+
+ss
+Displays socket and network connection information.
+
+Command:
+ss -tuln
+
+6. NMAP
+
+Basic network scan:
+nmap 192.168.56.102
+
+Service/version detection:
+nmap -sV 192.168.56.102
+
+7. OPENSSL
+
+Encrypt:
+openssl enc -aes-256-cbc -salt -pbkdf2 -in message.txt -out message.enc
+
+Decrypt:
+openssl enc -d -aes-256-cbc -pbkdf2 -in message.enc -out decrypted.txt
+
+Verify:
+cat decrypted.txt
+
+8. NETCAT
+
+Start listener:
+nc -lvnp 4444
+
+Connect:
+nc 127.0.0.1 4444
+
+9. BASIC FILE COMMANDS
+
+Create an empty file:
+touch testfile.txt
+
+Display file contents:
+cat testfile.txt
+
+These commands were practiced during the Task 1 cybersecurity laboratory setup using Kali Linux.

@@ -1,0 +1,1458 @@
+
+================================================================================
+TASK 1 — FOUNDATION & ENVIRONMENT SETUP | DETAILED STUDY NOTES
+================================================================================
+
+ApexPlanet Software Pvt. Ltd.
+Cybersecurity & Ethical Hacking Internship
+
+PURPOSE OF THIS DOCUMENT
+These are expanded study notes for Task 1. The topic list and required practical areas follow the internship brief. The explanations below expand those headings using standard cybersecurity, Linux, networking, cryptography, and security-tool knowledge so the notes can also be used for revision and for the GitHub repository.
+
+SOURCE SCOPE
+The internship brief specifies Task 1 as “Foundation & Environment Setup,” with the objective of building fundamentals in cybersecurity, networking, cryptography, and a professional hacking lab. It specifies:
+- CIA Triad
+- Threat Types: Phishing, Malware, DDoS, SQL Injection, Brute Force, Ransomware
+- Attack Vectors: Social Engineering, Wireless Attacks, Insider Threats
+- VirtualBox or VMware
+- Kali Linux as attacker machine
+- Metasploitable2 or DVWA as target
+- Host-Only Adapter
+- Linux navigation, permissions, package management, and networking commands
+- OSI Model, TCP/IP, DNS, HTTP/HTTPS, IP addressing, subnetting, NAT
+- Symmetric/asymmetric encryption, MD5, SHA-256, certificates, SSL/TLS, OpenSSL
+- Wireshark, Nmap, Burp Suite, Netcat
+- Deliverables including a Lab Setup Report, GitHub notes/Linux cheat sheet, and a 5-minute walkthrough video.
+
+Everything after the topic list is expanded instructional material rather than a claim that every detail appears verbatim in the internship PDF.
+
+
+================================================================================
+1. CYBERSECURITY — FUNDAMENTALS
+================================================================================
+
+Cybersecurity is the practice of protecting computers, networks, applications, devices, and information from unauthorized access, misuse, alteration, disruption, destruction, and other security risks.
+
+A useful way to understand cybersecurity is to divide it into several related areas:
+
+1. Information security — protecting information and ensuring appropriate confidentiality, integrity, and availability.
+2. Network security — protecting network infrastructure and traffic.
+3. Application security — reducing vulnerabilities in software and web applications.
+4. Endpoint security — protecting laptops, servers, workstations, and other endpoints.
+5. Identity and access management — controlling who can access which resources.
+6. Security operations — monitoring, detecting, investigating, and responding to suspicious activity.
+7. Governance, risk, and compliance — defining policies, managing risk, and meeting applicable requirements.
+
+A cybersecurity professional should understand both offensive and defensive perspectives. Offensive security studies how weaknesses can be identified in an authorized environment. Defensive security studies how those weaknesses can be prevented, detected, and mitigated.
+
+AUTHORIZED LAB PRINCIPLE
+Security tools can have powerful effects. Scanning, exploitation, credential testing, or traffic generation should be performed only against systems for which permission exists. A deliberately vulnerable VM such as Metasploitable2 is useful because it provides a controlled target.
+
+SECURITY GOALS
+A secure system should:
+- prevent unauthorized access;
+- prevent unauthorized modification;
+- remain available to authorized users;
+- record useful security events;
+- recover from failures and incidents;
+- minimize unnecessary attack surface.
+
+ATTACK SURFACE
+An attack surface is the collection of exposed interfaces through which a system might be attacked. Examples include:
+- open network ports;
+- web applications;
+- APIs;
+- login interfaces;
+- wireless networks;
+- exposed services;
+- user accounts;
+- software dependencies;
+- removable media.
+
+ATTACK VECTOR
+An attack vector is a method or route used to reach or compromise a target. Examples include phishing, vulnerable services, malicious files, stolen credentials, and insecure wireless access.
+
+THREAT, VULNERABILITY, AND RISK
+Threat: a potential cause of harm.
+Vulnerability: a weakness that can be exploited or otherwise lead to harm.
+Risk: the possibility and impact of a threat exploiting a weakness.
+
+A vulnerability does not automatically mean compromise. Risk depends on exposure, likelihood, impact, existing controls, and the environment.
+
+
+================================================================================
+2. CIA TRIAD
+================================================================================
+
+The CIA Triad consists of Confidentiality, Integrity, and Availability. It is the core security model identified in the Task 1 brief.
+
+2.1 CONFIDENTIALITY
+
+Confidentiality means preventing information from being disclosed to unauthorized people, systems, or processes.
+
+Examples:
+- encrypting sensitive files;
+- using access controls;
+- requiring authentication;
+- restricting database permissions;
+- protecting credentials;
+- using TLS for network communication.
+
+Confidentiality failure:
+If an unauthorized person obtains a private password database or confidential document, confidentiality has been compromised.
+
+COMMON CONTROLS
+- authentication;
+- authorization;
+- encryption;
+- least privilege;
+- network segmentation;
+- data classification;
+- secure disposal.
+
+2.2 INTEGRITY
+
+Integrity means maintaining the accuracy, completeness, and trustworthiness of information and systems.
+
+Examples:
+- preventing unauthorized database modification;
+- using hashes to detect changes;
+- using digital signatures;
+- controlling who can modify files;
+- maintaining audit logs.
+
+Integrity failure:
+If an attacker changes a transaction amount or modifies an executable without authorization, integrity has been compromised.
+
+COMMON CONTROLS
+- hashes;
+- digital signatures;
+- access controls;
+- change management;
+- audit logging;
+- file integrity monitoring.
+
+2.3 AVAILABILITY
+
+Availability means that authorized users can access systems and information when required.
+
+Threats to availability include:
+- hardware failure;
+- denial-of-service attacks;
+- ransomware;
+- power failure;
+- network failure;
+- software crashes.
+
+COMMON CONTROLS
+- backups;
+- redundancy;
+- failover;
+- capacity planning;
+- disaster recovery;
+- DDoS protection;
+- monitoring.
+
+2.4 CIA TRADE-OFFS
+
+Security controls can affect each other. Strong confidentiality controls may add friction for users. Extensive availability requirements may require redundancy and cost. Integrity controls may add logging and validation overhead.
+
+The goal is not simply to maximize one property but to establish an appropriate security design for the system and its requirements.
+
+2.5 EXAM-STYLE SUMMARY
+
+Confidentiality = prevent unauthorized disclosure.
+Integrity = prevent unauthorized or undetected alteration.
+Availability = ensure authorized access when needed.
+
+
+================================================================================
+3. THREAT TYPES
+================================================================================
+
+The Task 1 brief names six threat types. The explanations below expand them.
+
+3.1 PHISHING
+
+Phishing is a form of social engineering in which an attacker attempts to deceive a person into clicking a malicious link, revealing credentials, opening a harmful attachment, transferring information, or performing another unsafe action.
+
+Typical phishing flow:
+1. Attacker creates a deceptive message.
+2. Message imitates a trusted organization or person.
+3. Victim receives the message.
+4. Victim is encouraged to take an action.
+5. The action may expose credentials, install malware, or disclose information.
+
+Indicators:
+- unexpected urgency;
+- suspicious sender or domain;
+- mismatched links;
+- requests for passwords or financial information;
+- unusual attachments;
+- spelling or branding inconsistencies;
+- requests that bypass normal procedures.
+
+Defensive measures:
+- user awareness training;
+- multi-factor authentication;
+- email filtering;
+- URL inspection;
+- domain protection;
+- attachment scanning;
+- verification through a separate trusted channel.
+
+3.2 MALWARE
+
+Malware means malicious software. It includes software designed to compromise confidentiality, integrity, availability, or system control.
+
+Broad categories include:
+- virus;
+- worm;
+- trojan;
+- ransomware;
+- spyware;
+- rootkit;
+- botnet software.
+
+A trojan may appear legitimate while performing unauthorized activity. A worm may propagate between systems without requiring the same user interaction as a conventional malicious attachment.
+
+Defensive measures:
+- patching;
+- endpoint protection;
+- least privilege;
+- application allowlisting;
+- backups;
+- network segmentation;
+- user awareness;
+- monitoring.
+
+3.3 DDoS
+
+A Distributed Denial-of-Service attack attempts to make a service unavailable by overwhelming it with traffic or resource-intensive requests from multiple sources.
+
+Important concepts:
+- distributed sources;
+- resource exhaustion;
+- bandwidth exhaustion;
+- application-layer exhaustion.
+
+Impact:
+- slow response;
+- service interruption;
+- increased infrastructure load;
+- inability of legitimate users to connect.
+
+Defensive concepts:
+- rate limiting;
+- traffic filtering;
+- load balancing;
+- content delivery infrastructure;
+- upstream DDoS protection;
+- capacity planning.
+
+3.4 SQL INJECTION
+
+SQL Injection occurs when untrusted input is incorporated into SQL queries in an unsafe way, allowing input to change the intended query structure.
+
+Potential impact:
+- unauthorized data access;
+- data modification;
+- authentication bypass in vulnerable applications;
+- database enumeration;
+- in some cases, further compromise depending on application and database configuration.
+
+Primary defense:
+- parameterized queries/prepared statements;
+- safe ORM usage;
+- input validation as a supporting control;
+- least-privileged database accounts;
+- secure error handling.
+
+Conceptual example:
+An application expects a username as data. If the application concatenates raw input into a SQL statement, special SQL syntax may alter the query.
+
+Prepared statements separate query structure from parameter data, which is why they are a primary defense.
+
+3.5 BRUTE FORCE
+
+A brute-force attack repeatedly attempts credentials until a valid combination is found.
+
+Variants:
+- pure exhaustive guessing;
+- password spraying;
+- credential stuffing;
+- dictionary attacks.
+
+Defensive measures:
+- MFA;
+- rate limiting;
+- account lockout or adaptive controls;
+- strong unique passwords;
+- breached-password detection;
+- monitoring.
+
+3.6 RANSOMWARE
+
+Ransomware is malware associated with restricting access to systems or data and demanding payment.
+
+Potential stages:
+1. Initial access.
+2. Execution.
+3. Persistence or privilege escalation.
+4. Discovery.
+5. Data access or exfiltration in some incidents.
+6. Encryption or other disruption.
+7. Extortion or payment demand.
+
+Defensive measures:
+- offline/immutable backups;
+- patching;
+- least privilege;
+- network segmentation;
+- endpoint monitoring;
+- application control;
+- incident-response planning.
+
+A backup should be tested by restoration rather than merely assumed to work.
+
+
+================================================================================
+4. ATTACK VECTORS
+================================================================================
+
+The Task 1 brief names Social Engineering, Wireless Attacks, and Insider Threats.
+
+4.1 SOCIAL ENGINEERING
+
+Social engineering attacks target human decision-making rather than only technical vulnerabilities.
+
+Common techniques:
+- phishing;
+- pretexting;
+- impersonation;
+- baiting;
+- tailgating;
+- fraudulent support requests.
+
+Why it works:
+Humans may trust authority, urgency, familiarity, or helpful-looking requests.
+
+Defenses:
+- awareness training;
+- verification procedures;
+- MFA;
+- least privilege;
+- clear reporting channels;
+- technical email controls.
+
+4.2 WIRELESS ATTACKS
+
+Wireless security concerns attacks against Wi-Fi networks, clients, access points, or wireless protocols.
+
+Potential issues:
+- weak passwords;
+- outdated encryption;
+- rogue access points;
+- evil-twin style deception;
+- unauthorized association;
+- poorly segmented guest networks.
+
+Defensive measures:
+- modern wireless security;
+- strong authentication;
+- secure configuration;
+- firmware updates;
+- network segmentation;
+- monitoring for unauthorized access points.
+
+4.3 INSIDER THREATS
+
+An insider threat originates from someone who has legitimate access to an organization's systems or data.
+
+Types:
+- malicious insider;
+- negligent insider;
+- compromised insider account.
+
+Controls:
+- least privilege;
+- separation of duties;
+- logging;
+- monitoring;
+- access reviews;
+- strong authentication;
+- data-loss prevention;
+- offboarding procedures.
+
+IMPORTANT DISTINCTION
+An insider threat does not necessarily mean a malicious employee. A compromised account or accidental disclosure can also create insider risk.
+
+
+================================================================================
+5. LAB ENVIRONMENT SETUP
+================================================================================
+
+The Task 1 brief requires a professional hacking lab and specifies VirtualBox or VMware, Kali Linux as the attacker machine, Metasploitable2 or DVWA as target machines, and a private Host-Only Adapter network.
+
+5.1 VIRTUALIZATION
+
+Virtualization allows multiple virtual computers to run on a physical host.
+
+Key terms:
+Host: physical computer running the virtualization software.
+Guest: virtual machine running inside the host.
+Hypervisor: software layer that creates and manages virtual machines.
+Virtual disk: file or virtual storage presented to a guest OS.
+Virtual network adapter: virtual interface connecting a VM to a virtual network.
+
+Benefits for a cybersecurity lab:
+- isolation;
+- snapshots;
+- repeatability;
+- easy reset;
+- controlled networking;
+- multiple operating systems on one computer.
+
+5.2 KALI LINUX
+
+Kali Linux is a Debian-based distribution designed for security testing, digital forensics, and related security work. In this lab it acts as the attacker/security-testing machine.
+
+Typical tasks:
+- network inspection;
+- scanning;
+- packet analysis;
+- web-security testing;
+- cryptography exercises;
+- scripting and command-line work.
+
+5.3 METASPLOITABLE2
+
+Metasploitable2 is an intentionally vulnerable virtual machine used for security training. It is useful as a target in an isolated lab because services and weaknesses can be examined without targeting a production system.
+
+5.4 DVWA
+
+Damn Vulnerable Web Application is an intentionally vulnerable web application used for learning web security. The Task 1 brief allows Metasploitable2 or DVWA as target machines.
+
+5.5 HOST-ONLY ADAPTER
+
+A Host-Only Adapter creates a virtual network intended for communication among the host and selected virtual machines, depending on configuration.
+
+In this lab:
+Kali Linux: 192.168.56.101
+Metasploitable2: 192.168.56.102
+
+Connectivity was tested using ICMP ping.
+
+5.6 LAB SAFETY
+
+Keep deliberately vulnerable systems isolated from networks where they could expose vulnerable services to unintended users. Use the lab only for authorized training.
+
+5.7 SNAPSHOTS
+
+A VM snapshot can provide a recovery point. Before a major experiment, a snapshot can help restore the VM to a known state. Snapshots are not a substitute for proper backups in production environments.
+
+
+================================================================================
+6. LINUX FUNDAMENTALS
+================================================================================
+
+6.1 LINUX FILE SYSTEM CONCEPTS
+
+Linux organizes files and directories in a hierarchical structure beginning at /.
+
+Important directories:
+/
+Root of the filesystem.
+/home
+User home directories.
+/etc
+System and application configuration.
+/var
+Variable data such as logs.
+/tmp
+Temporary files.
+/usr
+Many user-space programs and data.
+/bin
+Essential executable programs on systems where this directory is present.
+/dev
+Device interfaces.
+/proc
+Kernel/process information exposed as a virtual filesystem.
+
+6.2 pwd
+
+pwd prints the current working directory.
+
+Example:
+pwd
+
+Use:
+- confirm where you are;
+- verify the current path before creating or modifying files.
+
+6.3 ls
+
+ls lists directory contents.
+
+Examples:
+ls
+ls -l
+ls -la
+
+-l provides a long listing.
+-a includes hidden entries.
+
+6.4 cd
+
+cd changes the current directory.
+
+Examples:
+cd /tmp
+cd ~
+cd ..
+cd -
+
+~ represents the user's home directory.
+.. represents the parent directory.
+- returns to the previous working directory.
+
+6.5 FILE CREATION
+
+touch can create an empty file or update timestamps.
+
+Example:
+touch testfile.txt
+
+cat displays file contents.
+
+Example:
+cat testfile.txt
+
+6.6 FILE PERMISSIONS
+
+Linux permissions commonly distinguish:
+- user/owner;
+- group;
+- others.
+
+Common permission bits:
+r = read
+w = write
+x = execute
+
+Example:
+-rw-r--r--
+
+The first character indicates file type in a conventional long listing.
+The following groups represent owner, group, and others.
+
+6.7 chmod
+
+chmod changes permissions.
+
+Example:
+chmod 600 testfile.txt
+
+Numeric permissions:
+4 = read
+2 = write
+1 = execute
+
+Therefore:
+7 = read + write + execute
+6 = read + write
+5 = read + execute
+4 = read only
+0 = no permissions
+
+chmod 600 means:
+owner = read/write
+group = no permissions
+others = no permissions
+
+6.8 chown
+
+chown changes file ownership.
+
+Example:
+chown user:group testfile.txt
+
+Ownership changes normally require appropriate privileges.
+
+6.9 PACKAGE MANAGEMENT
+
+APT is the high-level package management system used by Debian-based distributions.
+
+Common concepts:
+- repositories;
+- package metadata;
+- dependencies;
+- installation;
+- upgrades;
+- removal.
+
+Examples:
+apt update
+apt install <package>
+apt remove <package>
+
+dpkg is a lower-level Debian package tool.
+
+Example:
+dpkg -l
+
+6.10 NETWORKING COMMANDS
+
+ifconfig:
+Displays interface information on systems where the utility is installed.
+
+ip addr:
+Modern Linux systems commonly use ip for interface and address information.
+
+ping:
+Sends ICMP echo requests to test reachability.
+
+Example:
+ping -c 4 192.168.56.102
+
+netstat:
+Displays network connections and statistics where available.
+
+ss:
+A modern utility for sockets and network connections.
+
+Example:
+ss -tuln
+
+traceroute:
+Shows the path toward a destination, subject to routing and filtering behavior.
+
+6.11 LINUX SECURITY PRINCIPLES
+
+Least privilege:
+Give users/processes only the permissions they need.
+
+Patch management:
+Keep software updated where appropriate.
+
+Logging:
+Maintain useful security and operational records.
+
+Service minimization:
+Avoid running unnecessary services.
+
+Strong authentication:
+Use strong credentials and MFA where supported.
+
+
+================================================================================
+7. NETWORKING BASICS
+================================================================================
+
+7.1 WHAT IS A NETWORK?
+
+A computer network is a set of connected devices that communicate using agreed protocols.
+
+Important terms:
+Host — device participating in a network.
+Interface — network connection exposed to the operating system.
+MAC address — link-layer identifier commonly associated with an interface.
+IP address — logical network address.
+Port — logical endpoint associated with transport-layer services.
+Protocol — rules governing communication.
+
+7.2 OSI MODEL
+
+The OSI model has seven layers.
+
+Layer 7 — Application:
+Provides network services to applications. Examples include HTTP, DNS, and SMTP.
+
+Layer 6 — Presentation:
+Represents data formats, encoding, and transformations. In practical modern networking, responsibilities may be implemented across different software layers rather than as a separate component.
+
+Layer 5 — Session:
+Coordinates sessions or dialogs between applications.
+
+Layer 4 — Transport:
+Provides end-to-end transport. TCP and UDP operate here in the OSI mapping commonly taught.
+
+Layer 3 — Network:
+Provides logical addressing and routing. IP is the major example.
+
+Layer 2 — Data Link:
+Provides local-network framing and link-level delivery. Ethernet is a common example.
+
+Layer 1 — Physical:
+Carries signals over physical media.
+
+7.3 TCP/IP MODEL
+
+A common TCP/IP model groups networking into:
+- Application;
+- Transport;
+- Internet;
+- Link/Network Access.
+
+TCP:
+Connection-oriented, reliable byte-stream transport.
+
+UDP:
+Connectionless datagram transport with less overhead and no TCP-style delivery guarantee.
+
+IP:
+Provides addressing and routing between networks.
+
+7.4 TCP CONNECTION CONCEPTS
+
+A TCP connection is commonly established through a handshake:
+SYN
+SYN-ACK
+ACK
+
+This establishes sequence state before normal data transfer.
+
+7.5 PORTS
+
+Ports identify transport-layer endpoints.
+
+Common examples:
+22 — SSH
+21 — FTP
+23 — Telnet
+25 — SMTP
+53 — DNS
+80 — HTTP
+443 — HTTPS
+
+The presence of a port does not by itself prove that a service is vulnerable.
+
+7.6 DNS
+
+DNS maps names to network information.
+
+Common record types:
+A — IPv4 address.
+AAAA — IPv6 address.
+CNAME — canonical name/alias.
+MX — mail exchange.
+NS — name server.
+TXT — text data used for various purposes.
+
+DNS resolution may involve:
+1. Client stub resolver.
+2. Recursive resolver.
+3. Authoritative name server.
+
+7.7 HTTP
+
+HTTP is an application-layer protocol used for web communication.
+
+A request can contain:
+- method;
+- path;
+- HTTP version;
+- headers;
+- optional body.
+
+Common methods:
+GET
+POST
+PUT
+PATCH
+DELETE
+HEAD
+OPTIONS
+
+Common response status groups:
+1xx informational
+2xx success
+3xx redirection
+4xx client error
+5xx server error
+
+7.8 HTTPS
+
+HTTPS is HTTP carried over TLS.
+
+TLS can provide:
+- encryption;
+- integrity protection;
+- server authentication.
+
+A browser validates certificates according to its trust configuration and the certificate chain.
+
+7.9 IP ADDRESSING
+
+IPv4 uses 32-bit addresses, normally represented in dotted decimal.
+
+Example:
+192.168.56.101
+
+IPv4 address has network and host portions determined by the subnet mask/prefix.
+
+IPv6 uses 128-bit addresses and is represented in hexadecimal.
+
+7.10 SUBNETTING
+
+CIDR notation expresses an address and prefix length.
+
+Example:
+192.168.56.0/24
+
+A /24 IPv4 network has 24 network bits and 8 host bits.
+
+In a basic /24 network:
+network address = first address in the block
+broadcast address = last address in the block
+usable host addresses are between them, subject to subnetting rules.
+
+7.11 PRIVATE IPv4 ADDRESSING
+
+Common private IPv4 ranges:
+10.0.0.0/8
+172.16.0.0/12
+192.168.0.0/16
+
+Private addresses are intended for internal networks and are not globally routable on the public Internet in the normal way.
+
+7.12 NAT
+
+Network Address Translation modifies addressing information as traffic crosses a translation boundary.
+
+Common forms:
+SNAT — changes source addressing.
+DNAT — changes destination addressing.
+
+PAT/NAPT can allow multiple internal hosts to share a public address by distinguishing connections using transport ports.
+
+7.13 ROUTING
+
+Routers forward packets between networks based on routing information.
+
+A routing table can contain:
+- destination network;
+- prefix;
+- next hop;
+- interface;
+- metric.
+
+7.14 NETWORK TROUBLESHOOTING
+
+A logical troubleshooting sequence:
+1. Check interface status.
+2. Check IP address.
+3. Check local gateway/path.
+4. Test destination reachability.
+5. Check DNS if name resolution is involved.
+6. Check service/port availability.
+7. Inspect packet captures if necessary.
+
+
+================================================================================
+8. CRYPTOGRAPHY BASICS
+================================================================================
+
+8.1 PURPOSE OF CRYPTOGRAPHY
+
+Cryptography uses mathematical techniques to protect information and establish trust.
+
+Common goals:
+- confidentiality;
+- integrity;
+- authentication;
+- non-repudiation in specific digital-signature contexts.
+
+8.2 SYMMETRIC ENCRYPTION
+
+Symmetric encryption uses a shared secret key.
+
+Conceptual flow:
+Plaintext + secret key -> encryption -> ciphertext
+Ciphertext + same secret key -> decryption -> plaintext
+
+Advantages:
+- efficient;
+- suitable for large amounts of data.
+
+Challenge:
+The parties must establish the shared secret securely.
+
+Examples of symmetric algorithms include AES.
+
+8.3 AES
+
+AES is a widely used symmetric block cipher.
+
+AES supports key sizes including:
+- 128-bit;
+- 192-bit;
+- 256-bit.
+
+AES-CBC is a block-cipher mode. CBC requires an initialization vector (IV). Modern authenticated-encryption modes such as AES-GCM additionally provide authentication/integrity as part of the encryption operation.
+
+8.4 ASYMMETRIC CRYPTOGRAPHY
+
+Asymmetric cryptography uses a key pair:
+- public key;
+- private key.
+
+The private key must be protected.
+
+Uses:
+- digital signatures;
+- authentication;
+- public-key encryption in suitable schemes;
+- key establishment.
+
+8.5 DIGITAL SIGNATURES
+
+A digital signature can provide:
+- integrity;
+- origin authentication under appropriate trust assumptions;
+- evidence that the private signing key was used.
+
+Conceptually:
+message -> hash -> signing operation with private key -> signature
+
+Verification uses the public key.
+
+8.6 HASHING
+
+A cryptographic hash function maps input data to a fixed-length digest.
+
+Properties typically sought:
+- deterministic output;
+- efficient computation;
+- preimage resistance;
+- second-preimage resistance;
+- collision resistance.
+
+A hash is not simply “encrypted data” and normally is not decrypted.
+
+8.7 MD5
+
+MD5 produces a 128-bit digest.
+
+It is historically important but is not considered suitable for modern cryptographic integrity or password-security applications because practical collision attacks exist.
+
+For this Task 1 topic, MD5 is useful as a learning example showing why algorithm choice matters.
+
+8.8 SHA-256
+
+SHA-256 produces a 256-bit digest and belongs to the SHA-2 family.
+
+It is widely used for integrity verification and other cryptographic applications.
+
+Important distinction:
+A hash can detect changes when a trusted reference digest is available, but an untrusted digest alone does not authenticate a file's origin.
+
+8.9 SALTING
+
+A salt is additional random data combined with a password before password hashing.
+
+Purpose:
+- reduce effectiveness of precomputed tables;
+- ensure identical passwords do not necessarily produce identical stored password hashes.
+
+Password hashing should use dedicated password-hashing schemes rather than general-purpose fast hashes.
+
+8.10 DIGITAL CERTIFICATES
+
+A digital certificate binds an identity to a public key through a certificate authority or another trust model.
+
+Important certificate fields can include:
+- subject;
+- issuer;
+- validity period;
+- public key information;
+- subject alternative names;
+- digital signature;
+- serial number.
+
+8.11 CERTIFICATE CHAIN
+
+A certificate may be issued by an intermediate CA, which chains to a trusted root CA.
+
+A client evaluates the chain and other certificate properties during validation.
+
+8.12 TLS
+
+TLS protects application communication.
+
+A simplified TLS concept:
+1. Client and server negotiate parameters.
+2. Server authentication can occur using certificates.
+3. Key establishment occurs.
+4. Symmetric session keys are used for efficient protected data transfer.
+
+TLS versions and cipher suites matter. Secure deployments should use modern supported versions and avoid obsolete algorithms.
+
+8.13 OPENSSL
+
+OpenSSL is a widely used cryptographic toolkit and library.
+
+Task 1 practical:
+Create a plaintext file:
+echo "This is my cybersecurity task 1" > message.txt
+
+Encrypt:
+openssl enc -aes-256-cbc -salt -pbkdf2 -in message.txt -out message.enc
+
+Decrypt:
+openssl enc -d -aes-256-cbc -pbkdf2 -in message.enc -out decrypted.txt
+
+Verify:
+cat decrypted.txt
+
+The practical demonstrates that ciphertext can be transformed back into plaintext when the correct key/password and parameters are supplied.
+
+
+================================================================================
+9. WIRESHARK — PACKET CAPTURE
+================================================================================
+
+Wireshark is a graphical network protocol analyzer used to capture and inspect packets.
+
+9.1 CORE CONCEPTS
+
+Capture:
+Collect packets from a selected interface.
+
+Packet:
+A unit of network communication at a particular protocol layer.
+
+Capture filter:
+Limits which traffic is captured.
+
+Display filter:
+Controls which already captured packets are displayed.
+
+These are not the same operation.
+
+9.2 TASK 1 PRACTICAL
+
+The Host-Only interface was selected and traffic was captured while Kali pinged Metasploitable2.
+
+Kali:
+192.168.56.101
+
+Metasploitable2:
+192.168.56.102
+
+Display filter:
+icmp
+
+The resulting packets showed ICMP Echo Requests and Echo Replies.
+
+9.3 ICMP
+
+ICMP is used for network control and diagnostic messaging.
+
+Ping typically uses:
+Echo Request
+Echo Reply
+
+A successful ping demonstrates a particular form of network reachability, but it does not prove that every service or port is accessible.
+
+9.4 READING A PACKET
+
+Useful fields:
+- source;
+- destination;
+- protocol;
+- length;
+- packet number;
+- protocol details.
+
+9.5 COMMON FILTER EXAMPLES
+
+icmp
+http
+dns
+tcp
+udp
+ip.addr == 192.168.56.102
+tcp.port == 80
+
+9.6 SECURITY VALUE
+
+Wireshark can help identify:
+- unexpected connections;
+- protocol behavior;
+- plaintext traffic;
+- DNS activity;
+- TCP handshakes;
+- retransmissions;
+- suspicious patterns.
+
+9.7 LIMITATIONS
+
+Encrypted traffic cannot simply be read as plaintext without the required decryption context and keys. A capture also represents only the traffic visible to the capture point.
+
+
+================================================================================
+10. NMAP — NETWORK SCANNING
+================================================================================
+
+Nmap is a network discovery and security-auditing tool.
+
+10.1 HOST DISCOVERY
+
+Host discovery attempts to determine which systems respond or appear active.
+
+10.2 PORT SCANNING
+
+A port scan tests network ports to learn whether they are reachable and how they respond.
+
+Common port states:
+open — application is listening.
+closed — reachable but no application is listening.
+filtered — filtering prevents Nmap from determining the state clearly.
+
+10.3 TASK 1 COMMAND
+
+Basic scan:
+nmap 192.168.56.102
+
+Service/version scan:
+nmap -sV 192.168.56.102
+
+10.4 SERVICE VERSION DETECTION
+
+-sV attempts to identify services and versions. Version information can help a security tester understand the exposed attack surface and identify relevant defensive actions.
+
+10.5 OTHER COMMON NMAP OPTIONS
+
+-sS — TCP SYN scan.
+-sU — UDP scan.
+-O — OS detection.
+-p — specify ports.
+-Pn — skip host discovery and treat host as up.
+
+These options should be used only within authorized scope.
+
+10.6 INTERPRETING RESULTS
+
+A scan result should not be treated as a final vulnerability determination. An open port indicates a reachable service. Additional validation is required to determine whether a particular version or configuration is vulnerable.
+
+10.7 REPORTING
+
+A professional scan report should record:
+- target scope;
+- date/time;
+- scanner and version;
+- command/options;
+- ports;
+- services;
+- versions;
+- observations;
+- limitations;
+- recommended mitigations.
+
+
+================================================================================
+11. BURP SUITE — WEB PROXY
+================================================================================
+
+Burp Suite is a web-security testing platform. A central concept is intercepting HTTP requests between a browser and a web application.
+
+11.1 PROXY CONCEPT
+
+A proxy sits between client and server.
+
+Browser -> Proxy -> Web Server
+
+This allows a tester to inspect requests and responses.
+
+11.2 HTTP REQUEST
+
+An HTTP request may contain:
+- method;
+- URL/path;
+- Host header;
+- cookies;
+- content type;
+- other headers;
+- request body.
+
+Example:
+GET / HTTP/1.1
+Host: 192.168.56.102
+
+11.3 INTERCEPT
+
+Intercept mode pauses a request so the tester can inspect it before forwarding it.
+
+Task 1 practical:
+Burp Suite was used to observe an HTTP request to the Metasploitable2 web server in the authorized lab.
+
+11.4 WHY PROXYING MATTERS
+
+A proxy helps testers understand:
+- how applications transmit input;
+- authentication flows;
+- cookies;
+- parameters;
+- headers;
+- redirects;
+- server responses.
+
+11.5 SECURITY CONSIDERATIONS
+
+HTTP traffic without TLS may expose content to observers. HTTPS reduces this exposure through TLS, although application vulnerabilities can still exist at the application layer.
+
+
+================================================================================
+12. NETCAT — NETWORK DEBUGGING
+================================================================================
+
+Netcat is a command-line networking utility that can create simple TCP/UDP connections and listeners.
+
+12.1 LISTENER
+
+Example:
+nc -lvnp 4444
+
+This starts a listener on port 4444 on supported versions.
+
+12.2 LOCAL CONNECTION
+
+Example:
+nc 127.0.0.1 4444
+
+127.0.0.1 refers to the local host.
+
+12.3 TASK 1 PRACTICAL
+
+A local Netcat listener was created on port 4444. A second terminal connected to it and a test message was sent.
+
+This demonstrates basic client-server communication.
+
+12.4 SECURITY USES
+
+Netcat can assist with:
+- connectivity testing;
+- service debugging;
+- banner testing;
+- simple data transfer in controlled environments.
+
+Because it can create arbitrary network connections, it should be used only within authorized scope.
+
+
+================================================================================
+13. INTEGRATED LAB WORKFLOW
+================================================================================
+
+A useful way to connect all Task 1 topics is to view the laboratory as a small security-testing environment.
+
+STEP 1 — BUILD
+Create the VMs in VirtualBox.
+
+STEP 2 — ISOLATE
+Configure the Host-Only network.
+
+STEP 3 — IDENTIFY
+Use ip addr/ifconfig to identify addresses.
+
+STEP 4 — VERIFY CONNECTIVITY
+Use ping between Kali and Metasploitable2.
+
+STEP 5 — OBSERVE
+Use Wireshark to capture ICMP traffic.
+
+STEP 6 — DISCOVER SERVICES
+Use Nmap against the authorized target.
+
+STEP 7 — UNDERSTAND WEB TRAFFIC
+Use Burp Suite to observe an HTTP request to the lab web service.
+
+STEP 8 — TEST BASIC NETWORKING
+Use Netcat locally to understand listening and client connections.
+
+STEP 9 — PRACTICE CRYPTOGRAPHY
+Use OpenSSL to encrypt and decrypt a test message.
+
+STEP 10 — DOCUMENT
+Record commands, outputs, screenshots, observations, and limitations.
+
+This workflow demonstrates an important security principle: technical results are useful only when they are tied to scope, evidence, interpretation, and documentation.
+
+
+================================================================================
+14. EVIDENCE AND REPORTING
+================================================================================
+
+A professional lab report should distinguish:
+- what was configured;
+- what was tested;
+- what was observed;
+- what the evidence proves;
+- what the evidence does not prove.
+
+Recommended evidence:
+1. Kali Linux running.
+2. Metasploitable2 running.
+3. Host-Only network configuration.
+4. Successful Kali-to-Metasploitable ping.
+5. Wireshark ICMP capture.
+6. OpenSSL encryption/decryption.
+7. Nmap scan.
+8. Linux fundamentals.
+9. Burp Suite interception.
+10. Netcat communication.
+
+For each screenshot:
+- use a clear filename;
+- ensure relevant output is readable;
+- avoid unnecessary personal information;
+- add a figure number and caption;
+- explain what the screenshot demonstrates.
+
+Example evidence statement:
+“Figure 6 shows Wireshark displaying ICMP traffic between 192.168.56.101 and 192.168.56.102 after a four-packet ping test.”
+
+Avoid claiming:
+- that an open port is automatically vulnerable;
+- that a ping proves full connectivity to every service;
+- that a hash provides authentication by itself;
+- that a scan proves absence of vulnerabilities.
+
+
+================================================================================
+15. TASK 1 REVISION CHECKLIST
+================================================================================
+
+CYBERSECURITY
+[ ] CIA Triad understood
+[ ] Confidentiality explained
+[ ] Integrity explained
+[ ] Availability explained
+[ ] Phishing explained
+[ ] Malware explained
+[ ] DDoS explained
+[ ] SQL Injection explained
+[ ] Brute Force explained
+[ ] Ransomware explained
+[ ] Social Engineering explained
+[ ] Wireless Attacks explained
+[ ] Insider Threats explained
+
+LAB
+[ ] VirtualBox understood
+[ ] Kali Linux configured
+[ ] Metasploitable2 configured
+[ ] Host-Only network understood
+[ ] IP addresses identified
+[ ] Connectivity tested
+
+LINUX
+[ ] pwd
+[ ] ls
+[ ] cd
+[ ] chmod
+[ ] chown
+[ ] apt
+[ ] dpkg
+[ ] ifconfig
+[ ] ip addr
+[ ] ping
+[ ] netstat
+[ ] ss
+[ ] traceroute
+
+NETWORKING
+[ ] OSI layers
+[ ] TCP/IP
+[ ] TCP vs UDP
+[ ] DNS
+[ ] HTTP
+[ ] HTTPS
+[ ] IP addressing
+[ ] subnetting
+[ ] NAT
+[ ] ports
+[ ] routing
+
+CRYPTOGRAPHY
+[ ] symmetric encryption
+[ ] asymmetric cryptography
+[ ] hashing
+[ ] MD5
+[ ] SHA-256
+[ ] digital certificates
+[ ] TLS
+[ ] OpenSSL
+[ ] encryption/decryption practical
+
+TOOLS
+[ ] Wireshark
+[ ] Nmap
+[ ] Burp Suite
+[ ] Netcat
+
+DOCUMENTATION
+[ ] report completed
+[ ] screenshots inserted
+[ ] GitHub notes uploaded
+[ ] Linux cheat sheet uploaded
+[ ] 5-minute walkthrough recorded
+[ ] final submission links prepared
+
+
+================================================================================
+16. QUICK REFERENCE — COMMANDS USED IN TASK 1
+================================================================================
+
+Virtual machine / network verification:
+ip addr
+ifconfig
+ping -c 4 192.168.56.102
+ss -tuln
+
+Linux navigation:
+pwd
+ls
+cd /tmp
+cd ~
+
+Files:
+touch testfile.txt
+cat testfile.txt
+ls -l testfile.txt
+chmod 600 testfile.txt
+
+Nmap:
+nmap 192.168.56.102
+nmap -sV 192.168.56.102
+
+OpenSSL:
+echo "This is my cybersecurity task 1" > message.txt
+openssl enc -aes-256-cbc -salt -pbkdf2 -in message.txt -out message.enc
+openssl enc -d -aes-256-cbc -pbkdf2 -in message.enc -out decrypted.txt
+cat decrypted.txt
+
+Netcat:
+nc -lvnp 4444
+nc 127.0.0.1 4444
+
+Wireshark:
+Use the capture interface connected to the Host-Only lab network.
+Display filter:
+icmp
+
+Burp Suite:
+Proxy -> Intercept
+Use the authorized lab web server as the destination.
+
+
+================================================================================
+17. FINAL NOTES ON SCOPE
+================================================================================
+
+The internship brief is the authoritative source for which Task 1 topics and deliverables are required. These expanded notes add explanatory background so the repository can function as a study reference.
+
+The practical activities described in this document are limited to the user's authorized virtual laboratory. Metasploitable2 is intentionally vulnerable and should remain isolated from untrusted networks.
+
+For later internship tasks, the PDF introduces additional subjects such as reconnaissance, scanning, vulnerability assessment, packet analysis, web application security, exploitation, system security, and incident response. Those are outside the main scope of this Task 1 notes document unless specifically added later.
